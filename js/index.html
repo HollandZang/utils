@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TEST PAGE</title>
+    <script src="holland.js"></script>
+</head>
+<body>
+
+<select id="select_"></select>
+
+<div id="input_div" style="width: 100px"></div>
+
+</body>
+<script>
+    window.onload = function () {
+        document.getElementById('select_').select_bind_data(['A', {a: 1, b: 'b'}, 'C'], {code: 'a', name: 'b'})
+        document.getElementById('input_div').div_input_listen_hint({code: 'a', name: 'b'},)
+    }
+
+</script>
+</html>
