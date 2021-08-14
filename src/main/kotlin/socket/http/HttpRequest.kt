@@ -1,6 +1,7 @@
-package socket
+package socket.http
 
 import com.google.gson.Gson
+import socket.Request
 
 class HttpRequest(string: String) : Request {
     val requestLine: RequestLine
@@ -35,12 +36,24 @@ class HttpRequest(string: String) : Request {
         val method: String
         val requestURI: String
         val httpVersion: String
+        val paramiters: Map<String, String>
 
         init {
             val split = requestLine.split(" ")
             this.method = split[0]
             this.requestURI = split[1].ifEmpty { "/" }
             this.httpVersion = split[2].trim()
+
+            paramiters = mutableMapOf()
+            val split1 = requestURI.split("?")
+            if (split1.size > 1) {
+                split1[1].split("&").forEach { params ->
+                    run {
+                        val list = params.split("=")
+                        paramiters[list[0]] to list[1]
+                    }
+                }
+            }
         }
 
         override fun toString(): String =
@@ -58,7 +71,6 @@ class HttpRequest(string: String) : Request {
         }
 
     }
-
 
     override fun toString(): String =
         "$requestLine\n${requestHead.keys.joinToString("\n") { "$it: ${requestHead[it]}" }}$requestBody"

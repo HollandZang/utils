@@ -1,5 +1,7 @@
 package socket
 
+import socket.http.HttpRequest
+
 enum class Protocol(val value: String) {
     `HTTP 1`(""),
     `HTTP 1_1`("HTTP/1.1"),

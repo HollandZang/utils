@@ -1,4 +1,4 @@
-package http
+package httpUtils
 
 import okhttp3.*
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
