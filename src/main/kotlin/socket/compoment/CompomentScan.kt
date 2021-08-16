@@ -82,9 +82,10 @@ object CompomentScan {
         }
 
         (annoSet as HashSet).add(annotation)
-        annotation.annotationClass::java.get().annotations.forEach {
+//        annotation.annotationClass::java.get().annotations.forEach {
+        annotation.annotationClass.java.annotations.forEach {
             annoSet.add(annotation)
-            if (it.annotationClass::java.get().annotations.isNotEmpty()) {
+            if (it.annotationClass.java.annotations.isNotEmpty()) {
                 recursionAnnotatnions(it, annoSet)
             }
         }

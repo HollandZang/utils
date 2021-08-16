@@ -30,12 +30,11 @@ object HttpRouter {
     }
 
     fun invoke(httpRequest: HttpRequest): Any {
-        val pair = RouteMap[httpRequest.requestLine.requestURI]
-        if (pair == null) {
-            // TODO: 2021/8/14 404 Page
-        }
+        val pair = RouteMap[httpRequest.requestLine.requestURI.split("?")[0]]
+            ?: // TODO: 2021/8/14 404 Page
+            return "404 Page"
         // TODO: 2021/8/14 此处可配置拦截器
         // TODO: 2021/8/14 获取参数列表，调带参实现
-        return pair!!.second.invoke(pair.first)
+        return pair.second.invoke(pair.first)
     }
 }
