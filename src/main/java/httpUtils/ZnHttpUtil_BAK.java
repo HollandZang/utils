@@ -20,8 +20,8 @@
 //import java.util.function.BiConsumer;
 //import java.util.function.Consumer;
 //
-//public class HttpUtil {
-//    private static final Logger logger = LoggerFactory.getLogger(HttpUtil.class);
+//public class HttpUtil_BAK {
+//    private static final Logger logger = LoggerFactory.getLogger(HttpUtil_BAK.class);
 //
 //    private static final MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json;charset=UTF-8");
 //
