@@ -34,9 +34,9 @@ class HttpRequest(string: String) : Request {
      */
     class RequestLine(requestLine: String) {
         val method: String
-        val requestURI: String
+        var requestURI: String
         val httpVersion: String
-        val paramiters: Map<String, String>
+        val paramiters: HashMap<String, String>
 
         init {
             val split = requestLine.split(" ")
@@ -44,13 +44,14 @@ class HttpRequest(string: String) : Request {
             this.requestURI = split[1].ifEmpty { "/" }
             this.httpVersion = split[2].trim()
 
-            paramiters = mutableMapOf()
+            paramiters = hashMapOf()
             val split1 = requestURI.split("?")
             if (split1.size > 1) {
+                this.requestURI = split1[0]
                 split1[1].split("&").forEach { params ->
                     run {
                         val list = params.split("=")
-                        paramiters[list[0]] to list[1]
+                        paramiters[list[0]] = list[1]
                     }
                 }
             }

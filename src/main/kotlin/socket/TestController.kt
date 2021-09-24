@@ -1,5 +1,6 @@
 package socket
 
+import socket.http.annotation.RequestBody
 import socket.http.annotation.RequestMapping
 import java.util.*
 
@@ -7,7 +8,7 @@ import java.util.*
 class TestController {
 
     @RequestMapping
-    fun index(): String {
+    fun index(string: String, string1: String, @RequestBody body: Any): String {
         return "测试根路径：${Date().toString()}"
     }
 
