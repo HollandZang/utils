@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../../layui/css/layui.css">
+    <script src="../../holland.js"></script>
+</head>
+<style>
+    .site-demo-editor textarea {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        padding: 10px;
+        border: none;
+        resize: none;
+        background-color: #2b2b2b;
+        color: #999;
+        font-family: Courier New;
+        font-size: 12px;
+        -webkit-box-sizing: border-box !important;
+        -moz-box-sizing: border-box !important;
+        box-sizing: border-box !important;
+    }
+
+    blockquote, body, button, dd, div, dl, dt, form, h1, h2, h3, h4, h5, h6, input, li, ol, p, pre, td, textarea, th, ul {
+        margin: 0;
+        padding: 0;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    }
+
+    div {
+        display: block;
+    }
+
+    body {
+        line-height: 1.6;
+        color: rgba(0, 0, 0, .85);
+        font: 14px Helvetica Neue, Helvetica, PingFang SC, Tahoma, Arial, sans-serif;
+    }
+
+    a, body {
+        color: #333;
+    }
+
+    .site-demo-editor {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+    }
+
+    .site-demo-area {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 40%;
+    }
+
+    .site-demo-area-1 {
+        position: absolute;
+        top: 50%;
+        bottom: 0;
+        left: 40%;;
+        text-align: center;
+        width: 10%;
+    }
+
+    .site-demo-area-2 {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        width: 50%;
+    }
+
+    .site-demo-btn {
+        position: absolute;
+        bottom: 15px;
+        right: 15px;
+    }
+</style>
+<body>
+
+<div class="site-demo">
+    <div class="site-demo-editor">
+        <div class="site-demo-area">
+            <textarea id="LAY_encode" spellcheck="false" placeholder="在此处输入代码"></textarea>
+            <div class="site-demo-btn">
+                <button type="button" class="layui-btn" onclick="format('LAY_encode')">格式化</button>
+                <button type="button" class="layui-btn" onclick="copy('LAY_encode')">复制</button>
+            </div>
+        </div>
+        <div class="site-demo-area-1 site-demo-btn">
+            <div>
+                <button type="button" class="layui-btn" onclick="encodeIt()">==加密=></button>
+            </div>
+            <div style="margin-top: 10%">
+                <button type="button" class="layui-btn" onclick="decodeIt()"><=解密==</button>
+            </div>
+        </div>
+        <div class="site-demo-area-2">
+            <textarea id="LAY_decode" spellcheck="false" placeholder="在此处输入代码"></textarea>
+            <div class="site-demo-btn">
+                <button type="button" class="layui-btn" onclick="copy('LAY_decode')">复制</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../../layui/layui.js"></script>
+
+<script>
+    function encodeIt() {
+        const encode = document.getElementById("LAY_encode").value
+        try {
+            document.getElementById("LAY_decode").value = window.btoa(unescape(encodeURIComponent(encode)));
+            layer.msg("转换成功")
+        } catch (e) {
+            layer.msg(e.message)
+        }
+    }
+
+    function decodeIt() {
+        const decode = document.getElementById("LAY_decode").value
+        try {
+            document.getElementById("LAY_encode").value = decodeURIComponent(escape(window.atob(decode)));
+            layer.msg("转换成功")
+        } catch (e) {
+            layer.msg("不是一个合格的base64字符串")
+        }
+    }
+
+    function format(id) {
+        const textarea = document.getElementById(id)
+        textarea.value = JSON.stringify(JSON.parse(textarea.value), null, 2)
+    }
+
+    function copy(id) {
+        const textarea = document.getElementById(id)
+        navigator.clipboard.writeText(textarea.value)
+        layer.msg("复制成功")
+    }
+</script>
+</body>
+</html>

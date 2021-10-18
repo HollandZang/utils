@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../../../layui/css/layui.css">
+    <script src="../../../holland.js"></script>
+</head>
+<style>
+    .site-demo-editor textarea {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        padding: 10px;
+        border: none;
+        resize: none;
+        background-color: #2b2b2b;
+        color: #999;
+        font-family: Courier New;
+        font-size: 12px;
+        -webkit-box-sizing: border-box !important;
+        -moz-box-sizing: border-box !important;
+        box-sizing: border-box !important;
+    }
+
+    blockquote, body, button, dd, div, dl, dt, form, h1, h2, h3, h4, h5, h6, input, li, ol, p, pre, td, textarea, th, ul {
+        margin: 0;
+        padding: 0;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    }
+
+    div {
+        display: block;
+    }
+
+    body {
+        line-height: 1.6;
+        color: rgba(0, 0, 0, .85);
+        font: 14px Helvetica Neue, Helvetica, PingFang SC, Tahoma, Arial, sans-serif;
+    }
+
+    a, body {
+        color: #333;
+    }
+
+    .site-demo-editor {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+    }
+
+    .site-demo-area {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 40%;
+    }
+
+    .site-demo-area-1 {
+        position: absolute;
+        top: 50%;
+        bottom: 0;
+        left: 40%;;
+        text-align: center;
+        width: 10%;
+    }
+
+    .site-demo-area-2 {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        width: 50%;
+    }
+
+    .site-demo-btn {
+        position: absolute;
+        bottom: 15px;
+        right: 15px;
+    }
+</style>
+<body>
+
+<div class="site-demo">
+    <div class="site-demo-editor">
+        <div class="site-demo-area">
+            <textarea id="LAY_editor" spellcheck="false" placeholder="支持数组、对象转表格"></textarea>
+        </div>
+        <div class="site-demo-area-1 site-demo-btn">
+            <div>
+                <button type="button" class="layui-btn" onclick="formatterJson()">格式化</button>
+            </div>
+            <div style="margin-top: 10%">
+                <button type="button" class="layui-btn" onclick="generate()">运行代码</button>
+            </div>
+        </div>
+        <div class="site-demo-area-2">
+            <textarea id="LAY_code" spellcheck="false" placeholder="在此处输入代码"></textarea>
+            <div class="site-demo-btn">
+                <button type="button" class="layui-btn" onclick="copy('LAY_code')">复制</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../../../layui/layui.js"></script>
+
+<script>
+
+    document.ready(function () {
+        if (use_test_data) {
+            document.getElementById("LAY_editor").value = '[{"id":10000,"username":"user-0","sex":"女","city":"城市-0","sign":"签名-0","experience":255,"logins":24,"wealth":82830700,"classify":"作家","score":57},{"id":10001,"username":"user-1","sex":"男","city":"城市-1","sign":"签名-1","experience":884,"logins":58,"wealth":64928690,"classify":"词人","score":27},{"id":10002,"username":"user-2","sex":"女","city":"城市-2","sign":"签名-2","experience":650,"logins":77,"wealth":6298078,"classify":"酱油","score":31},{"id":10003,"username":"user-3","sex":"女","city":"城市-3","sign":"签名-3","experience":362,"logins":157,"wealth":37117017,"classify":"诗人","score":68},{"id":10004,"username":"user-4","sex":"男","city":"城市-4","sign":"签名-4","experience":807,"logins":51,"wealth":76263262,"classify":"作家","score":6},{"id":10005,"username":"user-5","sex":"女","city":"城市-5","sign":"签名-5","experience":173,"logins":68,"wealth":60344147,"classify":"作家","score":87},{"id":10006,"username":"user-6","sex":"女","city":"城市-6","sign":"签名-6","experience":982,"logins":37,"wealth":57768166,"classify":"作家","score":34},{"id":10007,"username":"user-7","sex":"男","city":"城市-7","sign":"签名-7","experience":727,"logins":150,"wealth":82030578,"classify":"作家","score":28},{"id":10008,"username":"user-8","sex":"男","city":"城市-8","sign":"签名-8","experience":951,"logins":133,"wealth":16503371,"classify":"词人","score":14},{"id":10009,"username":"user-9","sex":"女","city":"城市-9","sign":"签名-9","experience":484,"logins":25,"wealth":86801934,"classify":"词人","score":75}]';
+        }
+    });
+
+    function formatterJson() {
+        const textarea = document.getElementById("LAY_editor")
+        try {
+            textarea.value = JSON.stringify(JSON.parse(textarea.value), null, 2)
+        } catch (e) {
+            layer.msg(e.message)
+            console.log(e)
+        }
+    }
+
+    function generate() {
+        const LAY_editor = document.getElementById("LAY_editor")
+        let arr
+        try {
+            arr = JSON.parse(LAY_editor.value)
+        } catch (e) {
+            layer.msg(e.message)
+            console.log(e)
+            return
+        }
+
+        let obj = arr
+        if (arr instanceof Array) {
+            obj = arr[0]
+        }
+
+        //动态表格
+        let cols = []
+        for (let itemKey in obj) {
+            cols.push(`{field: '${itemKey}', title: '${itemKey.toUpperCase()}'}\n              `)
+        }
+
+        const LAY_code = document.getElementById("LAY_code")
+        LAY_code.value = `          //执行一个 table 实例
+          var table = layui.table;
+          table.render({
+            elem: '#demo'
+            ,height: 420
+            ,url: '' //数据接口
+            ,title: ''
+            ,page: true //开启分页
+            ,toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
+            ,totalRow: true //开启合计行
+            ,cols: [[ //表头
+              {title: '序号', width:40, fixed: 'left', type: 'numbers'}
+              ,${cols.join(",")}]]
+          });`
+    }
+
+    function copy(id) {
+        const textarea = document.getElementById(id)
+        navigator.clipboard.writeText(textarea.value)
+        layer.msg("复制成功")
+    }
+</script>
+</body>
+</html>

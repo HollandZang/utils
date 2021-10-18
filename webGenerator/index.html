@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>layout 管理系统大布局 - Layui</title>
+    <link rel="stylesheet" href="./layui/css/layui.css">
+    <script src="holland.js"></script>
+    <script src="menus.js"></script>
+</head>
+<body>
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo layui-hide-xs layui-bg-black">layout demo</div>
+        <!-- 头部区域（可配合layui 已有的水平导航） -->
+        <ul id="topbar" class="layui-nav layui-layout-left" lay-filter="topbar"></ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul id="sidebar" class="layui-nav layui-nav-tree" lay-filter="sidebar"></ul>
+        </div>
+    </div>
+
+    <div class="layui-body" style="background-color: #23262e">
+        <iframe id="znFrame"></iframe>
+    </div>
+
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        底部固定区域
+    </div>
+</div>
+<script src="./layui/layui.js"></script>
+<script>
+    var element
+    layui.use('element', function () {
+        element = layui.element;
+    });
+
+    document.ready(function () {
+        renderMenu('topbar', 'sidebar', 'znFrame')
+    });
+
+</script>
+</body>
+<style>
+    iframe {
+        height: 96%;
+        width: 98%;
+        border: 0;
+        padding: 15px;
+    }
+</style>
+</html>

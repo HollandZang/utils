@@ -36,9 +36,10 @@ object HttpRouter {
         val pair = RouteMap[httpRequest.requestLine.requestURI]
         if (pair == null) {
             // TODO: 2021/8/14 404 Page
+            return "404"
         }
         // TODO: 2021/8/14 此处可配置拦截器
-        val toList = pair!!.second.parameters.map { it1 ->
+        val toList = pair.second.parameters.map { it1 ->
             val requestBody = it1.getAnnotation(RequestBody::class.java)
             if (requestBody != null) {
                 httpRequest.requestBody?.content
@@ -53,13 +54,12 @@ object HttpRouter {
         return pair.second.invoke(pair.first, *toList.toTypedArray())
     }
 
-    // todo string为空但是是基本类型，就会报错。不想写了，先这样
+    // todo arg为空但是是基本类型，就会报错。不想写了，先这样
     private fun typeConverter(arg: String?, parameter: Parameter): Any? {
         if (arg == null) return null
         return when (parameter.parameterizedType.typeName) {
             "java.lang.String" -> arg
-            "int" -> Integer.valueOf(arg) ?: 0
-            "java.lang.Integer" -> Integer.valueOf(arg)
+            "int", "java.lang.Integer" -> Integer.valueOf(arg)
             else -> arg
         }
     }
