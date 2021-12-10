@@ -1,4 +1,7 @@
 public class IntegerUtils {
+    /**
+     * 测试自己写的Integer.numberOfTrailingZeros::
+     */
     public static void main(String[] args) {
         for (int i = 0; i < Integer.MAX_VALUE; i++) {
             final int i1 = get0(i);

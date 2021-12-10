@@ -1,4 +1,4 @@
-package designPattern;
+package designPattern.creational;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

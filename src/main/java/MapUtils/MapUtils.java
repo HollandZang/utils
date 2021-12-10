@@ -7,14 +7,19 @@ public class MapUtils {
      * @param i List长度
      * @return Map初始化容量
      */
-    private static int getInitialCapacity(int i) {
+    public static int getInitialCapacity(int i) {
         if (i <= 1) return 2;
         if (i <= 3) return 4;
-        final String b = Integer.toBinaryString(i);
+        int numberOfLeadingZeros = Integer.numberOfLeadingZeros(i);
+        if (i >> 32 - numberOfLeadingZeros - 2 == 3
+                && i << (numberOfLeadingZeros + 2) != 0) {
+            return 1 << 32 - numberOfLeadingZeros + 1;
+        } else {
+            return 1 << 32 - numberOfLeadingZeros;
+        }
+    }
 
-        return "11".equals(b.substring(0, 2)) &&
-                b.substring(2).contains("1")
-                ? 1 << (b.length() + 1)
-                : 1 << b.length();
+    public static void main(String[] args) {
+        System.out.println(getInitialCapacity(882));
     }
 }

@@ -10,8 +10,8 @@ public class ValidateUtil<T> {
     public static void main(String[] args) throws ParseException {
         Object date = "2020-01-11";
         Object type = 11;
-        ValidateUtil.test(date, "日期").notNull().isDateString().dateLe("2020-01-11");
-        ValidateUtil.test(type, "类型").notNull().in(1, 2, 3, 4, 5, 6);
+        ValidateUtil.test(date, "日期").notEmpty().isDateString().dateLe("2020-01-11");
+        ValidateUtil.test(type, "类型").notEmpty().in(1, 2, 3, 4, 5, 6);
     }
 
     private static final Pattern dateValidate_1 = Pattern.compile("^\\d{4}-[01]\\d-[0123]\\d$");
@@ -28,7 +28,7 @@ public class ValidateUtil<T> {
         return new ValidateUtil<T>(field, fieldName);
     }
 
-    public ValidateUtil<T> notNull() throws ParseException {
+    public ValidateUtil<T> notEmpty() throws ParseException {
         if (field == null || "".equals(field)) {
             throw new ParseException("字段[" + fieldName + " = " + field + "]不能为空", 0);
         }
@@ -49,7 +49,7 @@ public class ValidateUtil<T> {
      */
     public ValidateUtil<T> dateLe(String other) throws ParseException {
         if (field == null || "".equals(field)) return this;
-        if (dateValidate_1.matcher(other.toString()).matches()) {
+        if (dateValidate_1.matcher(other).matches()) {
             final String[] target = field.toString().split("-");
             final String[] others = other.split("-");
             for (int i = 0; i < 3; i++) {

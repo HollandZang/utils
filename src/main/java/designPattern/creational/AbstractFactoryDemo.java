@@ -1,4 +1,4 @@
-package designPattern;
+package designPattern.creational;
 
 // class CPU
 abstract class CPU {

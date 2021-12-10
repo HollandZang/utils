@@ -47,6 +47,7 @@ String.prototype.validate_max_char_length = function (len, name) {
  */
 HTMLElement.prototype.select_bind_data = function (data, mapping) {
     const element = this
+
     element[my_label] = ''
     element.innerHTML = ''
     for (const idElement of data) {

@@ -16,7 +16,7 @@
         background-color: #2b2b2b;
         color: #999;
         font-family: Courier New;
-        font-size: 12px;
+        font-size: 16px;
         -webkit-box-sizing: border-box !important;
         -moz-box-sizing: border-box !important;
         box-sizing: border-box !important;
@@ -124,7 +124,13 @@
     function decodeIt() {
         const decode = document.getElementById("LAY_decode").value
         try {
-            document.getElementById("LAY_encode").value = decodeURIComponent(escape(window.atob(decode)));
+            let value = decodeURIComponent(escape(window.atob(decode)))
+            try {
+                value = JSON.stringify(JSON.parse(value), null, 2)
+            } catch (e) {
+
+            }
+            document.getElementById("LAY_encode").value = value;
             layer.msg("转换成功")
         } catch (e) {
             layer.msg("不是一个合格的base64字符串")

@@ -1,4 +1,4 @@
-package designPattern;
+package designPattern.creational;
 
 class Expression implements Cloneable {
     public String str;

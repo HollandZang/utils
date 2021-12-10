@@ -1,4 +1,4 @@
-package designPattern;
+package designPattern.creational;
 
 interface ImageReader {
     DecodedImage getDecodeImage();
