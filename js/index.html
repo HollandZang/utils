@@ -3,20 +3,436 @@
 <head>
     <meta charset="UTF-8">
     <title>TEST PAGE</title>
-    <script src="holland.js"></script>
+
+    <style>
+        .holland_hide {
+            display: none;
+        }
+
+        .holland_hover {
+            cursor: pointer;
+            color: blue;
+        }
+
+        #holland_div_setting {
+            height: 400px;
+            width: 400px;
+            padding: 0 3px;
+            border: #FFFFFF 1px solid;
+            border-radius: 5px;
+            font-size: 14px;
+            user-select: none;
+        }
+
+        #holland_div_setting > legend {
+            font-size: 14px;
+        }
+
+        #holland_div_setting > div, textarea:nth-child(n) {
+            padding: 5px 5px;
+        }
+
+        #holland_div_setting > div > textarea {
+            resize: none;
+            width: 97%;
+            height: 150px;
+        }
+
+        #holland_filters > div {
+            width: 100%;
+            height: 20px;
+            margin-top: 5px;
+        }
+
+        .holland_filter_input {
+            width: 80%;
+        }
+
+    </style>
 </head>
 <body>
 
-<select id="select_"></select>
+<fieldset id="holland_div_setting">
+    <legend>Http Proxy</legend>
+    <div>class choose: <input id="holland_class_choose"></div>
+    <div id="holland_filters">class filter:
+        <a class="holland_hover" onclick="holland_add_filter()">add</a>
+        <!--        <div><a class="holland_hover" onclick="holland_remove_filter(this)">remove</a><input class="holland_filter_input"></div>-->
+    </div>
+    <div>how many element in one line: <input id="holland_one_line" type="number"></div>
+    <div>auto button: <input id="holland_auto_button"></div>
+    <div><a class="holland_hover" onclick="holland_run()">run!</a></div>
+</fieldset>
 
-<div id="input_div" style="width: 100px"></div>
+<div class="layui-table-box">
+    <div class="layui-table-header">
+        <table cellspacing="0" cellpadding="0" border="0" class="layui-table">
+            <thead>
+            <tr>
+                <th data-field="tid" data-key="1-0-0" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-0" align="center"><span>参数类别ID</span></div>
+                </th>
+                <th data-field="tname" data-key="1-0-1" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-1" align="center"><span>参数类别</span></div>
+                </th>
+                <th data-field="remarks" data-key="1-0-2" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-2" align="center"><span>备注</span></div>
+                </th>
+                <th data-field="state" data-key="1-0-3" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-3" align="center"><span>状态</span></div>
+                </th>
+                <th data-field="seq" data-key="1-0-4" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-4" align="center"><span>排序</span></div>
+                </th>
+                <th data-field="5" data-key="1-0-5" class=" layui-table-col-special">
+                    <div class="layui-table-cell laytable-cell-1-0-5" align="center"><span>操作</span></div>
+                </th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+    <div class="layui-table-body layui-table-main" style="height: 680px;">
+        <table cellspacing="0" cellpadding="0" border="0" class="layui-table">
+            <tbody>
+            <tr data-index="0" class="">
+                <td data-field="tid" data-key="1-0-0" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-0">10</div>
+                </td>
+                <td data-field="tname" data-key="1-0-1" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-1">通用状态</div>
+                </td>
+                <td data-field="remarks" data-key="1-0-2" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-2"></div>
+                </td>
+                <td data-field="state" data-key="1-0-3" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-3">启用</div>
+                </td>
+                <td data-field="seq" data-key="1-0-4" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-4">1</div>
+                </td>
+                <td data-field="5" data-key="1-0-5" align="center" data-off="true" class="layui-table-col-special">
+                    <div class="layui-table-cell laytable-cell-1-0-5">
+                        <button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit">编 辑</button>
+                        <button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删 除</button>
+                    </div>
+                </td>
+            </tr>
+            <tr data-index="1" class="">
+                <td data-field="tid" data-key="1-0-0" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-0">11</div>
+                </td>
+                <td data-field="tname" data-key="1-0-1" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-1">菜单层级</div>
+                </td>
+                <td data-field="remarks" data-key="1-0-2" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-2"></div>
+                </td>
+                <td data-field="state" data-key="1-0-3" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-3">启用</div>
+                </td>
+                <td data-field="seq" data-key="1-0-4" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-4">2</div>
+                </td>
+                <td data-field="5" data-key="1-0-5" align="center" data-off="true" class="layui-table-col-special">
+                    <div class="layui-table-cell laytable-cell-1-0-5">
+                        <button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit">编 辑</button>
+                        <button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删 除</button>
+                    </div>
+                </td>
+            </tr>
+            <tr data-index="2" class="">
+                <td data-field="tid" data-key="1-0-0" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-0">14</div>
+                </td>
+                <td data-field="tname" data-key="1-0-1" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-1">操作类型</div>
+                </td>
+                <td data-field="remarks" data-key="1-0-2" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-2"></div>
+                </td>
+                <td data-field="state" data-key="1-0-3" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-3">启用</div>
+                </td>
+                <td data-field="seq" data-key="1-0-4" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-4">3</div>
+                </td>
+                <td data-field="5" data-key="1-0-5" align="center" data-off="true" class="layui-table-col-special">
+                    <div class="layui-table-cell laytable-cell-1-0-5">
+                        <button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit">编 辑</button>
+                        <button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删 除</button>
+                    </div>
+                </td>
+            </tr>
+            <tr data-index="3" class="">
+                <td data-field="tid" data-key="1-0-0" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-0">15</div>
+                </td>
+                <td data-field="tname" data-key="1-0-1" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-1">操作结果</div>
+                </td>
+                <td data-field="remarks" data-key="1-0-2" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-2"></div>
+                </td>
+                <td data-field="state" data-key="1-0-3" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-3">启用</div>
+                </td>
+                <td data-field="seq" data-key="1-0-4" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-4">4</div>
+                </td>
+                <td data-field="5" data-key="1-0-5" align="center" data-off="true" class="layui-table-col-special">
+                    <div class="layui-table-cell laytable-cell-1-0-5">
+                        <button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit">编 辑</button>
+                        <button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删 除</button>
+                    </div>
+                </td>
+            </tr>
+            <tr data-index="4" class="">
+                <td data-field="tid" data-key="1-0-0" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-0">20</div>
+                </td>
+                <td data-field="tname" data-key="1-0-1" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-1">异常预警流程</div>
+                </td>
+                <td data-field="remarks" data-key="1-0-2" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-2">异常预警流程状态</div>
+                </td>
+                <td data-field="state" data-key="1-0-3" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-3">启用</div>
+                </td>
+                <td data-field="seq" data-key="1-0-4" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-4">20</div>
+                </td>
+                <td data-field="5" data-key="1-0-5" align="center" data-off="true" class="layui-table-col-special">
+                    <div class="layui-table-cell laytable-cell-1-0-5">
+                        <button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit">编 辑</button>
+                        <button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删 除</button>
+                    </div>
+                </td>
+            </tr>
+            <tr data-index="5">
+                <td data-field="tid" data-key="1-0-0" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-0">27</div>
+                </td>
+                <td data-field="tname" data-key="1-0-1" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-1">通用true/false</div>
+                </td>
+                <td data-field="remarks" data-key="1-0-2" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-2">通用true/false</div>
+                </td>
+                <td data-field="state" data-key="1-0-3" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-3">启用</div>
+                </td>
+                <td data-field="seq" data-key="1-0-4" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-4">27</div>
+                </td>
+                <td data-field="5" data-key="1-0-5" align="center" data-off="true" class="layui-table-col-special">
+                    <div class="layui-table-cell laytable-cell-1-0-5">
+                        <button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit">编 辑</button>
+                        <button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删 除</button>
+                    </div>
+                </td>
+            </tr>
+            <tr data-index="6">
+                <td data-field="tid" data-key="1-0-0" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-0">38</div>
+                </td>
+                <td data-field="tname" data-key="1-0-1" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-1">是否警员功能</div>
+                </td>
+                <td data-field="remarks" data-key="1-0-2" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-2">警员功能只有警员能操作</div>
+                </td>
+                <td data-field="state" data-key="1-0-3" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-3">启用</div>
+                </td>
+                <td data-field="seq" data-key="1-0-4" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-4">38</div>
+                </td>
+                <td data-field="5" data-key="1-0-5" align="center" data-off="true" class="layui-table-col-special">
+                    <div class="layui-table-cell laytable-cell-1-0-5">
+                        <button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit">编 辑</button>
+                        <button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删 除</button>
+                    </div>
+                </td>
+            </tr>
+            <tr data-index="7">
+                <td data-field="tid" data-key="1-0-0" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-0">39</div>
+                </td>
+                <td data-field="tname" data-key="1-0-1" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-1">是否核心功能</div>
+                </td>
+                <td data-field="remarks" data-key="1-0-2" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-2"></div>
+                </td>
+                <td data-field="state" data-key="1-0-3" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-3">启用</div>
+                </td>
+                <td data-field="seq" data-key="1-0-4" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-4">39</div>
+                </td>
+                <td data-field="5" data-key="1-0-5" align="center" data-off="true" class="layui-table-col-special">
+                    <div class="layui-table-cell laytable-cell-1-0-5">
+                        <button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit">编 辑</button>
+                        <button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删 除</button>
+                    </div>
+                </td>
+            </tr>
+            <tr data-index="8">
+                <td data-field="tid" data-key="1-0-0" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-0">40</div>
+                </td>
+                <td data-field="tname" data-key="1-0-1" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-1">是否常规业务</div>
+                </td>
+                <td data-field="remarks" data-key="1-0-2" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-2"></div>
+                </td>
+                <td data-field="state" data-key="1-0-3" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-3">启用</div>
+                </td>
+                <td data-field="seq" data-key="1-0-4" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-4">40</div>
+                </td>
+                <td data-field="5" data-key="1-0-5" align="center" data-off="true" class="layui-table-col-special">
+                    <div class="layui-table-cell laytable-cell-1-0-5">
+                        <button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit">编 辑</button>
+                        <button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删 除</button>
+                    </div>
+                </td>
+            </tr>
+            <tr data-index="9">
+                <td data-field="tid" data-key="1-0-0" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-0">41</div>
+                </td>
+                <td data-field="tname" data-key="1-0-1" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-1">业务所属类别</div>
+                </td>
+                <td data-field="remarks" data-key="1-0-2" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-2">1、业务办理；2、系统管理；3、安全管理；4、审计管理</div>
+                </td>
+                <td data-field="state" data-key="1-0-3" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-3">启用</div>
+                </td>
+                <td data-field="seq" data-key="1-0-4" align="center" class="">
+                    <div class="layui-table-cell laytable-cell-1-0-4">41</div>
+                </td>
+                <td data-field="5" data-key="1-0-5" align="center" data-off="true" class="layui-table-col-special">
+                    <div class="layui-table-cell laytable-cell-1-0-5">
+                        <button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit">编 辑</button>
+                        <button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删 除</button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 
 </body>
 <script>
-    window.onload = function () {
-        document.getElementById('select_').select_bind_data(['A', {a: 1, b: 'b'}, 'C'], {code: 'a', name: 'b'})
-        document.getElementById('input_div').div_input_listen_hint({code: 'a', name: 'b'},)
+    const localStorage_holland = window.localStorage.getItem('holland')
+    if (localStorage_holland) {
+        const holland = JSON.parse(localStorage_holland)
+        document.getElementById('holland_class_choose').value = holland.choose
+        document.getElementById('holland_one_line').value = holland.one_line
+        holland.filters.forEach(filter => holland_add_filter(filter))
     }
+
+    function holland_run() {
+        const holland_auto_button = document.getElementById('holland_auto_button')
+        const auto_button = document.getElementById(holland_auto_button.value)
+        if (auto_button) {
+            holland_run_inner();
+            self.setInterval(holland_run, 3000);
+        } else {
+            alert("can't find auto_button: " + holland_auto_button.value)
+        }
+    }
+
+    function holland_run_inner() {
+        const holland_class_choose = document.getElementById('holland_class_choose')
+        const elements = document.getElementsByClassName(holland_class_choose.value)
+
+        const holland_filters = document.getElementsByClassName('holland_filter_input')
+        const filters = []
+        for (let hollandFilter of holland_filters) {
+            if (hollandFilter.value) filters.push(hollandFilter.value)
+        }
+
+        /**
+         * element.parentElement.parentElement.parentElement.tagName!=='THEAD'
+         * element.parentElement.getAttribute('data-field')!=='5'
+         */
+        const eles = []
+        for (let element of elements) {
+            if (filters.length > 0) {
+                if (filters.map(filter => eval(filter)).filter(v => v !== undefined && v !== null && v !== '' && v !== false).length === filters.length) eles.push(element);
+            } else eles.push(element);
+        }
+
+        const holland_one_line = parseInt(document.getElementById('holland_one_line').value)
+        let content = ''
+        for (let i = 0, count = 1; i < eles.length; i++) {
+            if (count === holland_one_line) {
+                content += eles[i].innerText + '\n'
+                count = 1;
+            } else {
+                content += eles[i].innerText + ','
+                count = count + 1
+            }
+        }
+
+        window.localStorage.setItem('holland', JSON.stringify({
+            choose: holland_class_choose.value,
+            filters: filters,
+            one_line: holland_one_line
+        }))
+
+        funDownload(content, 'test.csv')
+    }
+
+    function holland_remove_filter(ele) {
+        ele.parentElement.remove()
+    }
+
+    function holland_add_filter(content) {
+        const filter = document.createElement('div')
+        if (content) {
+            filter.innerHTML = '<a class="holland_hover" onclick="holland_remove_filter(this)">remove</a><input class="holland_filter_input" value="' + content + '">';
+        } else {
+            filter.innerHTML = '<a class="holland_hover" onclick="holland_remove_filter(this)">remove</a><input class="holland_filter_input">';
+        }
+        document.getElementById('holland_filters').append(filter)
+    }
+
+    const btn_setting = document.createElement('button')
+    btn_setting.innerText = 'Setting'
+    btn_setting.style.textAlign = 'center'
+    btn_setting.style.position = 'absolute'
+    btn_setting.style.width = '70px'
+    btn_setting.style.height = '30px'
+    btn_setting.style.top = '0px'
+    btn_setting.style.right = '0px'
+    document.body.append(btn_setting)
+    btn_setting.onclick = function () {
+        document.getElementById('holland_div_setting').classList.toggle('holland_hide')
+    }
+
+    var funDownload = function (content, filename) {
+        // 创建隐藏的可下载链接
+        var eleLink = document.createElement('a');
+        eleLink.download = filename;
+        eleLink.style.display = 'none';
+        // 字符内容转变成blob地址
+        var blob = new Blob([content]);
+        eleLink.href = URL.createObjectURL(blob);
+        // 触发点击
+        document.body.appendChild(eleLink);
+        eleLink.click();
+        // 然后移除
+        document.body.removeChild(eleLink);
+    };
 
 </script>
 </html>

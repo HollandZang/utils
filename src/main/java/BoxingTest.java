@@ -1,7 +1,15 @@
+import java.util.concurrent.Semaphore;
+
 public class BoxingTest {
 
+    public static void main(String[] args) throws InterruptedException {
+        final Semaphore o = new Semaphore(2);
+        final Semaphore h = new Semaphore(1);
 
-    public static void main(String[] args) {
+
+    }
+
+    public void test() {
         Integer a = 1;
         Integer b = 2;
         Integer c = 3;
@@ -17,5 +25,4 @@ public class BoxingTest {
         System.out.println(g == (a + b));
         System.out.println(g.equals(a + b));
     }
-
 }

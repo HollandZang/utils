@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>切换效果模板</title>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+</head>
+
+<style>
+    .zn-container {
+        border: #00FF00 1px solid;
+        max-width: 240px;
+        white-space: nowrap;
+        position: relative;
+        display: flex;
+        overflow: hidden;
+        left: 300px;
+    }
+
+    .zn-data {
+        max-width: 200px;
+        display: inline-block;
+        overflow: hidden;
+        transition: all 0.1s;
+    }
+
+    .zn-item {
+        width: 60px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        margin-right: 10px;
+        display: inline-block;
+        z-index: 1;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .zn-switch {
+        display: inline-block;
+        white-space: nowrap;
+        width: 20px;
+        background-color: #00FF00;
+        text-align: center;
+        z-index: 2;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .zn-next {
+        left: 240px;
+    }
+
+    .zn-disable {
+        background-color: grey !important;
+        cursor: not-allowed !important;
+    }
+
+    .zn-selected {
+        background-color: #b6b6dc;
+    }
+</style>
+
+<body>
+
+<div class="zn-container">
+    <div class="zn-switch zn-pre zn-disable" onclick="on_switch(-1)">-</div>
+    <div class="zn-data"></div>
+    <div class="zn-switch zn-next" onclick="on_switch(1)">+</div>
+</div>
+
+</body>
+
+<script>
+    const znData = $('.zn-data')
+    const znPre = $('.zn-pre')
+    const znNext = $('.zn-next')
+    const x = 3//一共能展示多少个元素，与自身页面配置有关
+    let data, index
+
+    $(function () {
+        data = txt.split('\n')
+        index = 0
+
+        data.forEach((item, _index) => {
+            const div = document.createElement('div')
+            div.innerText = item
+            div.classList.add('zn-item')
+            div.onclick = function () {
+                if (_index === index || index > data.length - 1 - x) return
+                if (_index >= data.length - x) {
+                    to_next((data.length - x - index) * 70);
+                    index = data.length - x
+                } else {
+                    to_next((_index - index) * 70);
+                    index = _index;
+                }
+                render_switch()
+
+                for (let child of znData.children()) {
+                    child.classList.remove('zn-selected')
+                }
+                znData.children()[index].classList.add('zn-selected')
+            }
+            znData.append(div)
+        })
+    });
+
+    const to_next = (px) => {
+        znData.css('margin-left', parseInt(znData.css('margin-left')) - px)
+        znData.css('max-width', parseInt(znData.css('max-width')) + px)
+    }
+
+    const render_switch = () => {
+        if (index <= 0) {
+            znPre.addClass('zn-disable')
+        } else if (index >= data.length - x) {
+            znNext.addClass('zn-disable');
+        } else {
+            znPre.removeClass('zn-disable')
+            znNext.removeClass('zn-disable')
+        }
+    }
+
+    function on_switch(direction) {
+        if (index >= 0 && index <= data.length - 1 - x && direction === 1) {
+            to_next(70)
+            index++
+        }
+
+        if (index > 0 && index <= data.length - x && direction === -1) {
+            to_next(-70)
+            index--
+        }
+
+        render_switch()
+    }
+
+    var txt = "白玉庭\n" +
+        "尼玛才让\n" +
+        "杨永孝\n" +
+        "赵国军\n" +
+        "尕玛普措\n" +
+        "鲁微微\n" +
+        "顾兴旺\n" +
+        "嘎唐措\n" +
+        "李宁\n" +
+        "邵华"
+</script>
+</html>

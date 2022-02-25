@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="a" style="position: absolute;width: 32px;height: 32px;background-color: red;"></div>
+</body>
+
+<script>
+    {
+        const a = document.getElementById('a')
+        a.onmousedown = function (event) {
+            a.setAttribute('dragging', '1')
+            a.setAttribute('pos', event.clientX + ',' + event.clientY)
+            console.log('dragging');
+        }
+        a.onmouseup = function (event) {
+            a.setAttribute('dragging', '0')
+            a.setAttribute('pos', event.clientX + ',' + event.clientY)
+            console.log('cancel drag');
+        }
+        a.onmousemove = function (event) {
+            if (a.getAttribute('dragging') === '1') {
+                const posStr = a.getAttribute('pos').split(',')
+                const pos = {x: posStr[0], y: posStr[1]}
+
+
+                a.style.left = event.clientX + 'px'
+                a.style.top = event.clientY  + 'px'
+
+                console.log(a.style.left);
+            }
+        }
+    }
+</script>
+
+</html>

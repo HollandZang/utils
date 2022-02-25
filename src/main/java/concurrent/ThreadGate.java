@@ -3,6 +3,9 @@ package concurrent;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
+/**
+ * 阀门类：即使阀门关闭了，也会把已经开始执行的线程执行完毕
+ */
 public class ThreadGate {
     // 条件谓词：opened-since(n) (isOpen || generation > n)
     private boolean isOpen;

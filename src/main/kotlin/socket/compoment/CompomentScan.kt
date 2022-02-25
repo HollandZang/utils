@@ -9,7 +9,7 @@ object CompomentScan {
     private var currPackage = ""
 
     fun execute() {
-        findAllClass("")
+        findAllClass("socket")
     }
 
     private fun findAllClass(path: String) {
