@@ -45,9 +45,9 @@ abstract class ObjectPool<T> {
 
     protected abstract T create();
 
-    public abstract boolean validate(T o);
+    protected abstract boolean validate(T o);
 
-    public abstract void expire(T o);
+    protected abstract void expire(T o);
 
     public synchronized T checkOut() {
         long now = System.currentTimeMillis();

@@ -16,10 +16,10 @@ object CompomentScan {
         if (path.endsWith(".class")) {
             val classFullName = "$currPackage.${path.substring(0, path.indexOf(".class"))}"
             AllClass += classFullName
-            initCompoment(classFullName)
+            this initCompoment classFullName
         }
 
-        val resources = Thread.currentThread().contextClassLoader.getResources(path.replace('.', '/'))
+        val resources = Thread.currentThread().contextClassLoader.getResources(path.replace('.', File.separatorChar))
 
         while (resources.hasMoreElements()) {
             val element = resources.nextElement()
@@ -46,7 +46,7 @@ object CompomentScan {
      * 初始化组件
      * 在此增强类本类
      */
-    private fun initCompoment(classFullName: String) {
+    private infix fun initCompoment(classFullName: String) {
         val clazz = Class.forName(classFullName)
         if (clazz.annotations.isEmpty()) return
         val annoSet = mutableSetOf<Annotation>()

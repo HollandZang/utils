@@ -37,7 +37,9 @@ fun main() {
             println("收到请求")
 
             val inputStream = clientSocket.getInputStream()
-            val requestStr = String(inputStream.readNBytes(inputStream.available()))
+            val byteArray = ByteArray(inputStream.available())
+            inputStream.read(byteArray,0,byteArray.size)
+            val requestStr = String(byteArray)
             println(requestStr)
             val request = HttpRequest(requestStr)
 
@@ -57,7 +59,7 @@ fun doOperate(clientSocket: Socket, request: HttpRequest) {
 }
 
 private fun doHttpOperate(clientSocket: Socket, httpRequest: HttpRequest) {
-    val result = HttpRouter.invoke(httpRequest)
+    val result = HttpRouter invoke httpRequest
     doHttpResponse(clientSocket, result)
 }
 

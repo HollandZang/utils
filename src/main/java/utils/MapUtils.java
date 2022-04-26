@@ -1,4 +1,4 @@
-package MapUtils;
+package utils;
 
 public class MapUtils {
     /**

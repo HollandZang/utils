@@ -32,8 +32,10 @@ object HttpRouter {
         }
     }
 
-    fun invoke(httpRequest: HttpRequest): Any {
-        val pair = RouteMap[httpRequest.requestLine.requestURI]
+    infix fun invoke(httpRequest: HttpRequest): Any {
+        val (line,_,body) = httpRequest
+
+        val pair = RouteMap[line.requestURI]
         if (pair == null) {
             // TODO: 2021/8/14 404 Page
             return "404"
@@ -42,9 +44,9 @@ object HttpRouter {
         val toList = pair.second.parameters.map { it1 ->
             val requestBody = it1.getAnnotation(RequestBody::class.java)
             if (requestBody != null) {
-                httpRequest.requestBody?.content
+                body?.content
             } else {
-                val arg = httpRequest.requestLine.paramiters[it1.name]
+                val arg = line.paramiters[it1.name]
 
                 // todo 需要从string转换成对应的类型，目前没什么好办法
                 typeConverter(arg, it1)

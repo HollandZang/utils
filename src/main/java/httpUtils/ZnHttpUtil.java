@@ -146,12 +146,10 @@ public class ZnHttpUtil {
 
     public static void main(String[] args) {
         final Map<String, Object> data = new HashMap<>();
-        data.put("t1", LocalDateTime.now());
-        data.put("t2", LocalTime.now());
-        data.put("t3", LocalDate.now());
+        data.put("theIpAddress", "171.212.102.63");
 
-        final Optional<String> s = new ZnHttpUtil().sync.get("http://www.baidu.com", null, data);
-        final String s1 = s.orElse("asd");
+        final Optional<String> s = new ZnHttpUtil().sync.postForm("http://www.webxml.com.cn/WebServices/IpAddressSearchWebService.asmx/getCountryCityByIp", null, data);
+        final String s1 = s.orElse("ERR");
         System.out.println(s1);
 
     }

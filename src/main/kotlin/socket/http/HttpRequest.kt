@@ -8,6 +8,10 @@ class HttpRequest(string: String) : Request {
     val requestHead: Map<String, String>
     val requestBody: RequestBody?
 
+    operator fun component1():RequestLine = requestLine
+    operator fun component2():Map<String, String> = requestHead
+    operator fun component3():RequestBody? = requestBody
+
     init {
         val split = string.split("\n")
         val requestLine = split[0]

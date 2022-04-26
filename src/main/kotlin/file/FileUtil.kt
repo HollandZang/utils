@@ -9,7 +9,10 @@ object FileUtil {
         when (file.exists()) {
             true -> println("exists directory: $path")
             false -> {
-                file.mkdir()
+                if (!file.mkdir()) {
+                    mkdir(path.substring(0, path.lastIndexOf(File.separatorChar)))
+                    file.mkdir()
+                }
                 println("create directory: $path")
             }
         }
