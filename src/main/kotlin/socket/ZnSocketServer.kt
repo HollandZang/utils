@@ -22,7 +22,7 @@ val newCachedThreadPool = ThreadPoolExecutor(
 )
 
 fun main() {
-    val ip = 8080
+    val ip = 7654
     val server = ServerSocket(ip)
 
     CompomentScan.execute()
@@ -34,28 +34,30 @@ fun main() {
         val clientSocket: Socket = server.accept()
 
         newCachedThreadPool.execute {
-            println("收到请求")
-
             val inputStream = clientSocket.getInputStream()
+            Thread.sleep(20)
             val byteArray = ByteArray(inputStream.available())
-            inputStream.read(byteArray,0,byteArray.size)
+            inputStream.read(byteArray, 0, byteArray.size)
             val requestStr = String(byteArray)
-            println(requestStr)
-            val request = HttpRequest(requestStr)
+            println("收到请求: $requestStr")
 
-            doOperate(clientSocket, request)
+            doOperate(clientSocket, requestStr)
 
             inputStream.close()
             clientSocket.close()
-            println("关闭会话\n")
         }
     }
 }
 
-fun doOperate(clientSocket: Socket, request: HttpRequest) {
-    // TODO: 2021/8/12 当前默认识别成 http协议
+fun doOperate(clientSocket: Socket, requestStr: String) {
+    // 当前默认识别成 http协议
+    val request = HttpRequest(requestStr)
     val protocol = Protocol.checkProtocol(request)
-    doHttpOperate(clientSocket, request)
+    when (Protocol.checkProtocol(request)) {
+        Protocol.`HTTP 1_1` -> {
+            doHttpOperate(clientSocket, request)
+        }
+    }
 }
 
 private fun doHttpOperate(clientSocket: Socket, httpRequest: HttpRequest) {
@@ -66,8 +68,7 @@ private fun doHttpOperate(clientSocket: Socket, httpRequest: HttpRequest) {
 private fun doHttpResponse(clientSocket: Socket, result: Any) {
     val out = BufferedWriter(OutputStreamWriter(clientSocket.getOutputStream()))
     val string = HttpResponse(result).toString()
-    println("发送返回")
-    println(string)
+    println("发送返回: $string")
     out.write(string)
     out.flush()
     out.close()
