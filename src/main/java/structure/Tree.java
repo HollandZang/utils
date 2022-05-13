@@ -1,11 +1,11 @@
-package tree;
+package structure;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class TreeUtil {
+public class Tree {
 
     /**
      * @param list        节点集合
