@@ -6,15 +6,16 @@ import java.io.File
 @Suppress("SpellCheckingInspection")
 object CompomentScan {
     private val AllClass = mutableSetOf<String>()
-    private var currPackage = ""
 
     fun execute() {
-        findAllClass("socket")
+        findAllClass("")
     }
 
-    private fun findAllClass(path: String) {
+    private fun findAllClass(path: String, currPackage: String = "") {
         if (path.endsWith(".class")) {
-            val classFullName = "$currPackage.${path.substring(0, path.indexOf(".class"))}"
+            val classFullName =
+                "${if (currPackage.isNotBlank()) "$currPackage." else ""}${path.substring(0, path.indexOf(".class"))}"
+
             AllClass += classFullName
             this initCompoment classFullName
         }
@@ -26,17 +27,18 @@ object CompomentScan {
             when (element.protocol) {
                 "file" -> {
                     if (path == "META-INF") break
-//                    println("file $path")
-                    File(element.path).list()?.forEach {
-                        currPackage = path
-                        findAllClass(it)
-                    }
+                    println("> file $path")
+                    File(element.path).list()
+                        ?.forEach {
+                            findAllClass(it, path)
+                        }
                 }
                 "jar" -> {
-//                    println("jar  $path")
+                    if (path == "META-INF") break
+                    println("> jar  ${element.path}")
                 }
                 else -> {
-                    println("else $path")
+                    println("> else $path")
                 }
             }
         }
@@ -56,10 +58,10 @@ object CompomentScan {
         annoSet.forEach {
             when (it.annotationClass.qualifiedName) {
                 Compoment::class.java.name -> {
-                    ZnCompoments.proxyClass[classFullName] = clazz.getDeclaredConstructor().newInstance()
+                    Compoments.proxyClass[classFullName] = clazz.getDeclaredConstructor().newInstance()
                 }
                 RequestMapping::class.java.name -> {
-                    ZnCompoments.httpRequestController[clazz] = it as RequestMapping
+                    Compoments.httpRequestController[clazz] = it as RequestMapping
                 }
                 // TODO: 2021/8/14 此处可配置AOP
                 else -> {

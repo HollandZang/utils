@@ -1,6 +1,6 @@
 package socket.http
 
-import socket.compoment.ZnCompoments
+import socket.compoment.Compoments
 import socket.http.annotation.RequestBody
 import socket.http.annotation.RequestMapping
 import java.lang.reflect.Method
@@ -15,7 +15,7 @@ object HttpRouter {
     val RouteMap = mutableMapOf<String, Pair<Any, Method>>()
 
     fun init() {
-        ZnCompoments.httpRequestController.forEach { (clazz, requestMapping) ->
+        Compoments.httpRequestController.forEach { (clazz, requestMapping) ->
             clazz.methods.forEach { method ->
                 if (method.annotations.isNotEmpty()) {
                     method.annotations.forEach {
@@ -24,7 +24,7 @@ object HttpRouter {
                                 if (requestMapping.path == "/") "" else if (requestMapping.path.startsWith("/")) requestMapping.path else "/$requestMapping.path"
                             val methodPath1 = (it as RequestMapping).path
                             val methodPath = if (methodPath1.startsWith("/")) methodPath1 else "/$methodPath1"
-                            RouteMap["$classPath$methodPath"] = ZnCompoments.proxyClass[clazz.name]!! to method
+                            RouteMap["$classPath$methodPath"] = Compoments.proxyClass[clazz.name]!! to method
                         }
                     }
                 }
@@ -33,7 +33,7 @@ object HttpRouter {
     }
 
     infix fun invoke(httpRequest: HttpRequest): Any {
-        val (line,_,body) = httpRequest
+        val (line, _, body) = httpRequest
 
         val pair = RouteMap[line.requestURI]
         if (pair == null) {

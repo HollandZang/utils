@@ -3,7 +3,7 @@ package socket.compoment
 import socket.http.annotation.RequestMapping
 
 @Suppress("SpellCheckingInspection")
-object ZnCompoments {
+object Compoments {
     /**
      * k: className
      * v: proxyClass
