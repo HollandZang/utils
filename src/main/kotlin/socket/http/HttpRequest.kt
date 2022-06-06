@@ -8,12 +8,12 @@ class HttpRequest(string: String) : Request {
     val requestHead: Map<String, String>
     val requestBody: RequestBody?
 
-    operator fun component1():RequestLine = requestLine
-    operator fun component2():Map<String, String> = requestHead
-    operator fun component3():RequestBody? = requestBody
+    operator fun component1(): RequestLine = requestLine
+    operator fun component2(): Map<String, String> = requestHead
+    operator fun component3(): RequestBody? = requestBody
 
     init {
-        val split = string.split("\n")
+        val split = string.split("\n", "\r\n")
         val requestLine = split[0]
         this.requestLine = RequestLine(requestLine)
 
@@ -33,6 +33,7 @@ class HttpRequest(string: String) : Request {
     /**
      * Method SP Request-URI SP HTTP-Version CRLF
      * example: GET http://www.w3.org/pub/WWW/TheProject.html HTTP/1.1
+     * example: GET /pub/WWW/TheProject.html HTTP/1.1
      *
      * Note that the absolute path cannot be empty; if none is present in the original URI, it MUST be given as "/" (the server root).
      */
@@ -78,6 +79,6 @@ class HttpRequest(string: String) : Request {
     }
 
     override fun toString(): String =
-        "$requestLine\n${requestHead.keys.joinToString("\n") { "$it: ${requestHead[it]}" }}$requestBody"
+        "$requestLine\r\n${requestHead.keys.joinToString("\r\n") { "$it: ${requestHead[it]}" }}$requestBody"
 
 }
