@@ -34,5 +34,5 @@ class HttpResponse(result: Any) : Response {
     }
 
     override fun toString(): String =
-        "$statusLine\n${responseHead.keys.joinToString("\n") { "$it: ${responseHead[it]}" }}\n\n$responseBody"
+        "$statusLine\r\n${responseHead.keys.joinToString("\r\n") { "$it: ${responseHead[it]}" }}\r\n\r\n$responseBody"
 }

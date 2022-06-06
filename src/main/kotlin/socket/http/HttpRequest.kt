@@ -73,12 +73,12 @@ class HttpRequest(string: String) : Request {
         }
 
         override fun toString(): String {
-            return if (content.isEmpty()) "" else "\n\n$content"
+            return content.ifEmpty { "" }
         }
 
     }
 
     override fun toString(): String =
-        "$requestLine\r\n${requestHead.keys.joinToString("\r\n") { "$it: ${requestHead[it]}" }}$requestBody"
+        "$requestLine\r\n${requestHead.keys.joinToString("\r\n") { "$it: ${requestHead[it]}" }}\r\n\r\n$requestBody"
 
 }
