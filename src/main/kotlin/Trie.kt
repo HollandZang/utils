@@ -1,6 +1,7 @@
 import java.io.File
 import java.io.FileWriter
 
+@Suppress("unused")
 class Trie(
     private val char: Char? = null
 ) {

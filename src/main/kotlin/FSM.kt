@@ -1,11 +1,13 @@
 import file.FileUtil
+import java.util.regex.Pattern
 
 class FSM {
     val stateTransitionTableStr = FileUtil.readFile("conf", "flow_test")
 
     val stateTransitionTable = stateTransitionTableStr.run {
+        val pattern = Pattern.compile("\t+")
         val map = mutableMapOf<String, MutableMap<String, String>>()
-        val twoDimensionalArray = this.split("\r\n", "\n").map { it.split("\t") }
+        val twoDimensionalArray = this.split("\r\n", "\n").map { it.split(pattern) }
         for (i in 1 until twoDimensionalArray[0].size) {
             val state = twoDimensionalArray[0][i]
             for (j in 1 until twoDimensionalArray.size) {

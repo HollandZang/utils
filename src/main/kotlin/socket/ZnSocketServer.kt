@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit
 class ServerSocket
 
 val newCachedThreadPool = ThreadPoolExecutor(
-    0, Int.MAX_VALUE,
+    10, Int.MAX_VALUE,
     60L, TimeUnit.SECONDS,
     SynchronousQueue()
 )
