@@ -3,13 +3,16 @@ package utils;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ExternalIPUtil {
@@ -55,7 +58,39 @@ public class ExternalIPUtil {
         }
     }
 
-    public static void main(String[] args) throws ExecutionException, InterruptedException {
+    public static void main(String[] args) throws ExecutionException, InterruptedException, IOException {
         System.out.println(get());
+        System.out.println(getNowIP1());
+    }
+
+    private static String getNowIP1() throws IOException {
+        String ip = null;
+        String chinaz = "https://ip.chinaz.com/";
+        StringBuilder inputLine = new StringBuilder();
+        String read = "";
+        URL url = null;
+        HttpURLConnection urlConnection = null;
+        BufferedReader in = null;
+        try {
+            url = new URL(chinaz);
+            urlConnection = (HttpURLConnection) url.openConnection();
+            in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), StandardCharsets.UTF_8));
+            while ((read = in.readLine()) != null) {
+                inputLine.append(read).append("\r\n");
+            }
+            Pattern p = Pattern.compile("\\<dd class\\=\"fz24\">(.*?)\\<\\/dd>");
+            Matcher m = p.matcher(inputLine.toString());
+            if (m.find()) {
+                ip = m.group(1);
+            }
+        } finally {
+            if (in != null) {
+                in.close();
+            }
+        }
+        if (null == ip || ip.length() == 0) {
+            throw new RuntimeException();
+        }
+        return ip;
     }
 }
