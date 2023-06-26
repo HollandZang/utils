@@ -64,7 +64,7 @@
     <div><a class="holland_hover" onclick="holland_run()">run!</a></div>
 </fieldset>
 
-<div class="layui-table-box" hidden="">
+<div class="layui-table-box">
     <div class="layui-table-header">
         <table cellspacing="0" cellpadding="0" border="0" class="layui-table">
             <thead>
@@ -328,88 +328,9 @@
         </table>
     </div>
 </div>
-<button onclick="send()">请求测试</button>
+
 </body>
-
 <script>
-
-    function send() {
-        ajax({
-                method: "GET",
-                url: "/bysystem/job/categories/{{id}}/name",
-                // data: {id: "asdjjl", password: "qpqpww", userAccount: 13540669613, core: "core"},
-                // body: []
-            },
-            (result) => {
-                const r = JSON.parse(result)
-                console.log(r)
-            }
-        )
-    }
-
-    function sendDel({url, data}, fnSucceed, fnFail) {
-        ajax({
-                method: "DELETE",
-                url: url,
-                data: data
-            },
-            fnSucceed, fnFail
-        )
-    }
-
-    function ajax(
-        {
-            method = "GET",
-            url,
-            data = {},
-            body
-        },
-        fnSucceed,
-        fnFail = function (responseText) {
-            try {
-                const result = JSON.parse(responseText)
-                alert(result.message ?? result.code)
-            } catch (ignore) {
-                alert(responseText)
-            }
-        }
-    ) {
-        const pathVals = url.match(/\$\{[\w-]+\}/g)
-        if (pathVals) {
-            for (let pathVal of pathVals) {
-                const k = pathVal.substring(2, pathVal.length - 1)
-                const v = data[k]
-                delete data[k]
-                if (!v)
-                    throw `请传入路径参数:${k}`
-                url = url.replace(pathVal, v)
-            }
-        }
-
-        let query = []
-        for (let k in data) {
-            query.push(`${k}=${data[k]}`)
-        }
-        if (query.length > 0) {
-            url += '?' + query.join('&')
-        }
-
-        let xhr = new XMLHttpRequest(); // 创建XMLHttpRequest 实例
-        xhr.open(method, url, false); //设置为同步get请求
-        xhr.send(JSON.stringify(body)); // 开始发送请求，并且阻塞后续代码执行，直到拿到响应
-        if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
-            if (typeof fnFail == 'function') {
-                fnSucceed(xhr.responseText)
-            }
-        } else {
-            if (typeof fnFail == 'function') {
-                fnFail(xhr.responseText)
-            } else {
-                alert(`请求失败: ${url} -> ${xhr.responseText}`)
-            }
-        }
-    }
-
     const localStorage_holland = window.localStorage.getItem('holland')
     if (localStorage_holland) {
         const holland = JSON.parse(localStorage_holland)

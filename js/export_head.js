@@ -11,12 +11,6 @@ function run() {
 
         let arr = []
         arr.push({title:title})
-        for (let element of document.getElementsByTagName('script')) {
-            arr.push(element.src)
-        }
-        alert(JSON.stringify(arr))
-
-
         for (let element of document.getElementsByTagName('meta')) {
             let json = {}
             const attrs = element.getAttributeNames()
