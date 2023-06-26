@@ -17,6 +17,5 @@ data class K(
     var msgCategory: String,
     var msgContent: String,
     var openPage: String,
-    var openPage1: String,
     var openPage2: String,
 )
